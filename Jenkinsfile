@@ -45,7 +45,7 @@ volumes: [
     }
     stage('Run helm') {
       container('helm') {
-        sh "helm install helloworld ./helloworld-0.1.0.tgz"
+        sh "helm install helloworld -n default ./helloworld-0.1.0.tgz"
       }
     }
     stage('Run kubectl') {
