@@ -4,12 +4,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo './gradlew build -i'
+                sh './gradlew build -i'
             }
         }
         stage('Build Docker Image'){
             steps{
-                echo 'docker build -t test .'
+                sh 'docker build -t test .'
             }
         }
     }
