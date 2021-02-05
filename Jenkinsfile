@@ -39,18 +39,21 @@ volumes: [
     stage('Create Docker images') {
       container('docker') {
         sh """
-          docker build -t namespace/my-image:${gitCommit} .
+          docker build -t app/hello-world:1.0 .
           """
+      }
+    }
+    stage('Run helm') {
+      container('helm') {
+        sh "helm install helloworld ./helloworld-0.1.0.tgz"
       }
     }
     stage('Run kubectl') {
       container('kubectl') {
         sh "kubectl get pods"
-      }
-    }
-    stage('Run helm') {
-      container('helm') {
-        sh "helm list"
+        sh """
+        for i in {1..10}; do kubectl get pods; sleep 5; done
+           """
       }
     }
   }
