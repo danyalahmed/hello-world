@@ -2,6 +2,7 @@ def label = "worker-${UUID.randomUUID().toString()}"
 
 podTemplate(label: label, containers: [
   containerTemplate(name: 'gradle', image: 'gradle:6.8.1-jdk8', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
   containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
   containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true)
 ],
@@ -33,6 +34,13 @@ volumes: [
     stage('Build') {
       container('gradle') {
         sh "gradle build"
+      }
+    }
+    stage('Create Docker images') {
+      container('docker') {
+        sh """
+          docker build -t namespace/my-image:${gitCommit} .
+          """
       }
     }
     stage('Run kubectl') {
