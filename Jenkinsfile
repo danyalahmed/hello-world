@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh '.gradle build -i'
+                sh 'gradle build -i'
             }
         }
         stage('Build Docker Image'){
