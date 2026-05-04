@@ -10,10 +10,12 @@ steps:
   - name: containerise
     image: woodpeckerci/plugin-docker-buildx
     settings:
+      registry: zot.khuddam.org.uk
       repo: zot.khuddam.org.uk/hello-world
       dockerfile: Dockerfile
       context: .
       username:
-        from_secrets: DOCKER_USERNAME
+        from_secret: DOCKER_USERNAME
       password:
-        from_secrets: DOCKER_API_TOKEN
+        from_secret: DOCKER_API_TOKEN
+      purge: true
