@@ -1,0 +1,19 @@
+when:
+  - event: manual
+
+steps:
+  - name: build
+    image: gradle:7.6.6-jdk11
+    commands:
+      - ./gradlew build
+
+  - name: containerise
+    image: woodpeckerci/plugin-docker-buildx
+    settings:
+      repo: zot.khuddam.org.uk/hello-world
+      dockerfile: Dockerfile
+      context: .
+      username:
+        from_secrets: DOCKER_USERNAME
+      password:
+        from_secrets: DOCKER_API_TOKEN
